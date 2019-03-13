@@ -1,0 +1,12 @@
+<div class="dropdown" (click)="visible = !visible">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu"  aria-haspopup="true" aria-expanded="false">
+      Dropdown
+    </button>
+    <div class="dropdown-menu" [ngClass]="visible ? 'show': ''" aria-labelledby="dropdownMenu">
+      <button class="dropdown-item" type="button">Markdown</button>
+      <div class="dropdown-divider"></div>
+      <button class="dropdown-item" type="button">Revenues</button>
+      <div class="dropdown-divider"></div>
+      <button class="dropdown-item" type="button">Margin</button>
+    </div>
+  </div>

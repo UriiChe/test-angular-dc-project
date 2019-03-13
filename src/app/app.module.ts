@@ -3,10 +3,20 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DushboardComponent } from './container/dushboard/dushboard.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { TimeLineChartComponent } from './components/time-line-chart/time-line-chart.component';
+import { NavComponent } from './components/nav/nav.component';
+import { SelectPropertyComponent } from './components/select-property/select-property.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DushboardComponent,
+    PieChartComponent,
+    TimeLineChartComponent,
+    NavComponent,
+    SelectPropertyComponent
   ],
   imports: [
     BrowserModule,
