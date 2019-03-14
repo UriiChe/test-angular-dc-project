@@ -9,6 +9,7 @@ import { TimeLineChartComponent } from './components/time-line-chart/time-line-c
 import { NavComponent } from './components/nav/nav.component';
 import { SelectPropertyComponent } from './components/select-property/select-property.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

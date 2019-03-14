@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import * as d3 from 'd3';
-import * as crossfilter from 'crossfilter';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import * as dc from 'dc';
 
 @Component({
   selector: 'app-time-line-chart',
@@ -8,19 +7,12 @@ import * as crossfilter from 'crossfilter';
   styleUrls: ['./time-line-chart.component.scss']
 })
 export class TimeLineChartComponent implements OnInit {
-  sourceData;
-  appCrossfilter;
+  lineChart;
   constructor() { }
+    
 
-  drowLineChart(){
-    this.sourceData = d3.csv('../../assets/data.csv').then((data)=>{
-      console.log(data);
-      this.appCrossfilter = crossfilter(data);
-      
-    })
-  }
   ngOnInit() {
-    this.drowLineChart()
-;  }
+    this.lineChart = dc.rowChart('#lineChart');
+  }
 
 }
