@@ -31,7 +31,7 @@ export class DushboardComponent implements OnInit, AfterViewChecked {
   }
    createPieChart(crossfilter, reduceProperty = "revenues"){
     // create dimension by item_category
-    const categoryDimension = crossfilter.dimension(d=>d["item_category"]);
+    const categoryDimension = crossfilter.dimension(dc.pluck("item_category"));
     // group item_category dimension
     const categoryMarkdownGroup = categoryDimension.group().reduceSum(d=>d[reduceProperty]);
     this.pieChart = this.pieComponent.pieChart.width(500)
@@ -47,21 +47,23 @@ export class DushboardComponent implements OnInit, AfterViewChecked {
   }
   createLineChart(crossfilter){
     // create dimension by time (week)
-    const timeDimension = crossfilter.dimension(d=>+d.week_ref);
+    const timeDimension = crossfilter.dimension(dc.pluck('week_ref'));
     // group time dimension
     const timeGroup = timeDimension.group().reduceSum(function(d){
-      return d.margin * d.week_ref / 1000;
+      return d.margin/1000;
     });
     // find min and max week-time for linear chart
     const _min = timeDimension.bottom(1)[0].week_ref;
     const _max = timeDimension.top(1)[0].week_ref;
     // this.print_filter(timeDimension);
     this.lineChart = this.lineComponent.lineChart
+                .brushOn(true)
                 .width(800)
                 .height(300)
                 .elasticX(true)
                 .x(d3.scaleLinear().domain([_min,_max]))
                 .dimension(timeDimension)
+                .valueAccessor(d=>d.value/100)
                 .group(timeGroup);
     // this.lineChart.valueAccessor(d=>{
     //   console.log(d.key);
