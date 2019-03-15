@@ -1,10 +1,10 @@
 <div class="dropdown" (click)="visible = !visible">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu"  aria-haspopup="true" aria-expanded="false">
-      Dropdown
+      {{ curentProperty | titlecase}}
     </button>
     <div class="dropdown-menu p-0" [ngClass]="visible ? 'show': ''" aria-labelledby="dropdownMenu">
       <div *ngFor="let prop of propertyForChangeView">
-        <button class="dropdown-item" type="button" (click)="changeOutput(prop)">{{ prop }}</button>
+        <button class="dropdown-item" type="button" (click)="changeOutput(prop)">{{ prop | titlecase }}</button>
         <div class="dropdown-divider m-0"></div>
       </div>
     </div>
