@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChange } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as dc from 'dc';
 
 @Component({
@@ -7,13 +7,16 @@ import * as dc from 'dc';
   styleUrls: ['./pie-chart.component.scss']
 })
 export class PieChartComponent implements OnInit {
+  //recieve crossfilter data from parent component
   @Input('crossfilterData') set getCrossFilter(value){
     this.crossfilterData = value;
   }
+  //recieve property from parent component for reduce chart
   @Input('properyForChart') set changeInputProperty(value:string){
     this.currentProperty = value;
     this.updateChart();
   }
+  //recieve reset event
   @Input('reset') set resetChart(value){
     if(this.pieChart){
     this.pieChart.filterAll(null);
@@ -34,22 +37,18 @@ export class PieChartComponent implements OnInit {
   }
  
   createPieChart(){
+    // create dimension by item_category
     this.categoryDimension = this.crossfilterData.dimension(d=>d["item_category"]);
     this.categoryGroup = this.categoryDimension.group().reduceSum(d=>d[this.currentProperty]);
-    this.pieChart = this.pieChart
+    this.pieChart
         .width(700)
         .height(500)
         .dimension(this.categoryDimension)
         .group(this.categoryGroup)
         .legend(dc.legend())
-        .on('renderlet', (chart)=>{
-          chart.selectAll('rect').on('click', (d)=>{
-            console.log('click!', d);
-          })
-        });
     dc.renderAll();
   }
-  
+
   updateChart(){
     if(this.categoryDimension){
       this.pieChart.group(this.categoryDimension.group().reduceSum(d=>d[this.currentProperty]));

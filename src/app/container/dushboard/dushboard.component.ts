@@ -1,9 +1,5 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, AfterViewChecked, OnChanges } from '@angular/core';
-import * as d3 from 'd3';
-import * as dc from 'dc';
+import { Component, OnInit } from '@angular/core';
 import { DcService } from '../../services/dc.service';
-import { PieChartComponent } from 'src/app/components/pie-chart/pie-chart.component';
-import { TimeLineChartComponent } from 'src/app/components/time-line-chart/time-line-chart.component';
 
 @Component({
   selector: 'app-dushboard',
@@ -11,10 +7,10 @@ import { TimeLineChartComponent } from 'src/app/components/time-line-chart/time-
   styleUrls: ['./dushboard.component.scss']
 })
 export class DushboardComponent implements OnInit {
-  currentProperty:string = 'markdown';
+  currentProperty:string = 'markdown'; // set property for child components
   dataFromCrossfilter;
-  propertyForChangeView:string[] = ["markdown", "margin", "revenues"];
-  reset:boolean = true;
+  propertyForChangeView:string[] = ["markdown", "margin", "revenues"]; // set properties to select-component
+  reset:boolean = true; // value for reset toggler
   constructor( private dcService: DcService ) { } 
   
   ngOnInit() {

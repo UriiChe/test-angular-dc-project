@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as dc from 'dc';
 import * as d3 from 'd3';
 
@@ -8,13 +8,16 @@ import * as d3 from 'd3';
   styleUrls: ['./time-line-chart.component.scss']
 })
 export class TimeLineChartComponent implements OnInit {
+  //recieve crossfilter data from parent component
   @Input('dataFromCrossfilter') set getCrossFilterData(value){
     this.dataFromCrossfilter = value;
   }
+  //recieve property from parent component for reduce chart
   @Input('properyForChart') set changeInputProperty(value:string){
     this.currentProperty = value;
     this.updateChart();
   }
+  //recieve reset event
   @Input('reset') set resetChart(value){
     if(this.lineChart){
     this.lineChart.filterAll(null);
