@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+.dc-chart path.line{
+    fill: none;
+}
+.extent{
+    fill: steelblue;
+    fill-opacity: .1;
+}
+.dc-chart .brush .resize path{
+    fill: #eee;
+    stroke: #666;
+}
+.dc-chart .axis path{
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}

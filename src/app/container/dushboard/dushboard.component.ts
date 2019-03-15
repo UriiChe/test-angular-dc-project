@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, AfterViewChecked, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 import * as dc from 'dc';
 import { DcService } from '../../services/dc.service';
@@ -10,34 +10,39 @@ import { TimeLineChartComponent } from 'src/app/components/time-line-chart/time-
   templateUrl: './dushboard.component.html',
   styleUrls: ['./dushboard.component.scss']
 })
-export class DushboardComponent implements OnInit, AfterViewChecked {
+export class DushboardComponent implements OnInit, OnChanges {
   @ViewChild(PieChartComponent) private pieComponent:PieChartComponent;
   @ViewChild(TimeLineChartComponent) private lineComponent: TimeLineChartComponent;
   lineChart;
   pieChart;
   propertyForChangeView: string[] = ['markdown', 'revenues', 'margin'];
-  currentProperty:string;
+  currentProperty:string = 'markdown';
+  categoryGroup;
+  categoryDimension;
+  private dataFromCrossfilter;
   constructor( private dcService: DcService ) { }
   
   ngOnInit() {
     this.dcService.createCrossfilter().then(data=>{
-      this.createPieChart(data, this.currentProperty);
-      this.createLineChart(data); 
+      this.dataFromCrossfilter = data;
+      this.createPieChart();
+      this.createLineChart(); 
       dc.renderAll();
     });
   }
-  ngAfterViewChecked(){
-
+  ngOnChanges(){
+    console.log('change');
   }
-   createPieChart(crossfilter, reduceProperty = "revenues"){
+
+   createPieChart(){
     // create dimension by item_category
-    const categoryDimension = crossfilter.dimension(d=>d["item_category"]);
+    this.categoryDimension = this.dataFromCrossfilter.dimension(d=>d["item_category"]);
     // group item_category dimension
-    const categoryMarkdownGroup = categoryDimension.group().reduceSum(d=>d[reduceProperty]);
-    this.pieChart = this.pieComponent.pieChart.width(500)
+    this.categoryGroup = this.categoryDimension.group().reduceSum(d=>d[this.currentProperty]);
+    this.pieChart = this.pieComponent.pieChart.width(700)
           .height(500)
-          .dimension(categoryDimension)
-          .group(categoryMarkdownGroup)
+          .dimension(this.categoryDimension)
+          .group(this.categoryGroup)
           .legend(dc.legend())
           .on('renderlet', (chart)=>{
             chart.selectAll('rect').on('click', (d)=>{
@@ -45,33 +50,36 @@ export class DushboardComponent implements OnInit, AfterViewChecked {
             })
           });
   }
-  createLineChart(crossfilter){
+  updatePieChart(){
+    this.categoryGroup = this.categoryDimension.group().reduceSum(d=>d[this.currentProperty]);
+  }
+  createLineChart(){
     // create dimension by time (week)
-    const timeDimension = crossfilter.dimension(d=>+d.week_ref);
+    const timeDimension = this.dataFromCrossfilter.dimension(d=>+d.week_ref);
     // group time dimension
     const timeGroup = timeDimension.group().reduceSum(function(d){
-      return d.margin * d.week_ref / 1000;
+      return d.margin;
     });
     // find min and max week-time for linear chart
     const _min = timeDimension.bottom(1)[0].week_ref;
     const _max = timeDimension.top(1)[0].week_ref;
-    // this.print_filter(timeDimension);
     this.lineChart = this.lineComponent.lineChart
-                .width(800)
+                .width(700)
                 .height(300)
-                .elasticX(true)
+                .elasticY(true)
+                .margins({top: 20, right: 10, bottom: 20, left:50})
                 .x(d3.scaleLinear().domain([_min,_max]))
                 .dimension(timeDimension)
-                .group(timeGroup);
-    // this.lineChart.valueAccessor(d=>{
-    //   console.log(d.key);
-    // });
+                .group(timeGroup)
+                .valueAccessor(d=>d.value/1000)
   }
-  
+
   changeViewProperty(value){
     if(value !== this.currentProperty){
       this.currentProperty = value;
-      dc.renderAll();
+      this.updatePieChart();
+      this.pieChart.group(this.categoryGroup);
+      dc.redrawAll();
     }
   }
   //reset filters 

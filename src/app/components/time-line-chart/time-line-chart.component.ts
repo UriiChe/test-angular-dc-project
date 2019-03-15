@@ -12,7 +12,7 @@ export class TimeLineChartComponent implements OnInit {
     
 
   ngOnInit() {
-    this.lineChart = dc.rowChart('#lineChart');
+    this.lineChart = dc.lineChart('#lineChart');
   }
 
 }
