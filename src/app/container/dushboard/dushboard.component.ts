@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DcService } from '../../services/dc.service';
+import { Data } from '../../models/data'; 
+import { Crossfilter } from 'crossfilter2';
 
 @Component({
   selector: 'app-dushboard',
@@ -8,7 +10,7 @@ import { DcService } from '../../services/dc.service';
 })
 export class DushboardComponent implements OnInit {
   currentProperty:string = 'markdown'; // set property for child components
-  dataFromCrossfilter;
+  dataFromCrossfilter:Crossfilter<Data>;
   propertyForChangeView:string[] = ["markdown", "margin", "revenues"]; // set properties to select-component
   reset:boolean = true; // value for reset toggler
   constructor( private dcService: DcService ) { } 
@@ -19,31 +21,11 @@ export class DushboardComponent implements OnInit {
     });
   }
 
-  changeViewProperty(value){
+  changeViewProperty(value:string){
     if(value !== this.currentProperty){
       this.currentProperty = value;
     }
   }
 }
 
-
-
-
-
-
-
-
-
-
-  
-   
- 
-
-
-
-
-
-      
-  
-      
       

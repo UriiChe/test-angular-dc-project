@@ -7,14 +7,14 @@
     </div>
   </div>
   <div class="row align-items-stretch px-3" *ngIf="dataFromCrossfilter">
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       <div class="card">
         <div class="card-body">
           <app-pie-chart [crossfilterData]="dataFromCrossfilter" [reset] = "reset" [properyForChart]="currentProperty"></app-pie-chart>
         </div>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       <div class="card">
         <div class="card-body">
             <app-time-line-chart [dataFromCrossfilter]="dataFromCrossfilter" [reset] = "reset" [properyForChart]="currentProperty"></app-time-line-chart>

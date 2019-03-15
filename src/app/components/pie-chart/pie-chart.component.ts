@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as dc from 'dc';
+import { Crossfilter, Dimension, Group, NaturallyOrderedValue } from 'crossfilter2';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-pie-chart',
@@ -8,7 +10,7 @@ import * as dc from 'dc';
 })
 export class PieChartComponent implements OnInit {
   //recieve crossfilter data from parent component
-  @Input('crossfilterData') set getCrossFilter(value){
+  @Input('crossfilterData') set getCrossFilter(value:Crossfilter<Data>){
     this.crossfilterData = value;
   }
   //recieve property from parent component for reduce chart
@@ -17,18 +19,18 @@ export class PieChartComponent implements OnInit {
     this.updateChart();
   }
   //recieve reset event
-  @Input('reset') set resetChart(value){
+  @Input('reset') set resetChart(value:boolean){
     if(this.pieChart){
-    this.pieChart.filterAll(null);
+    this.pieChart.filterAll();
     dc.renderAll();
     }
   }
   // preinitialisation objects and variables
-  crossfilterData;
-  currentProperty; //property for reduce pieChart (margin, markdown, reveue);
-  pieChart;
-  categoryGroup;
-  categoryDimension;
+  crossfilterData:Crossfilter<Data>;
+  currentProperty:string; //property for reduce pieChart (margin, markdown, reveue);
+  pieChart:dc.PieChart;
+  categoryGroup:Group<Data, NaturallyOrderedValue, NaturallyOrderedValue>;
+  categoryDimension:Dimension<Data, number>;
   constructor() { }
 
   ngOnInit() { 

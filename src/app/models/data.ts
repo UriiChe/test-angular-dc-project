@@ -1,23 +1,8 @@
 export interface Data{
-    Item_code: string,
-    category_desc: string,
-    channel: string,
-    country: number,
-    division: string,
-    dm: number,
-    exec_id: string,
-    item_brand: string,
     item_category: string,
     margin: number,
     markdown: number,
-    price: number,
-    quantity: number,
-    region: string,
     revenues: number,
-    season: string,
-    stock: string,
-    store: string,
-    valuta: string,
     week_ref: number,
     year_ref: number
 }

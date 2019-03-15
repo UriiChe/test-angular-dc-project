@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as dc from 'dc';
 import * as d3 from 'd3';
+import { Crossfilter, Dimension } from 'crossfilter2';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-time-line-chart',
@@ -9,7 +11,7 @@ import * as d3 from 'd3';
 })
 export class TimeLineChartComponent implements OnInit {
   //recieve crossfilter data from parent component
-  @Input('dataFromCrossfilter') set getCrossFilterData(value){
+  @Input('dataFromCrossfilter') set getCrossFilterData(value:Crossfilter<Data>){
     this.dataFromCrossfilter = value;
   }
   //recieve property from parent component for reduce chart
@@ -18,17 +20,16 @@ export class TimeLineChartComponent implements OnInit {
     this.updateChart();
   }
   //recieve reset event
-  @Input('reset') set resetChart(value){
+  @Input('reset') set resetChart(value:boolean){
     if(this.lineChart){
-    this.lineChart.filterAll(null);
-    dc.renderAll();
+    this.reset();
     }
   }
  
-  currentProperty; //property for reduce pieChart (margin, markdown, reveue);
-  lineChart;
-  dataFromCrossfilter;
-  timeDimension;
+  currentProperty:string = 'markdown'; //property for reduce pieChart (margin, markdown, reveue);
+  lineChart:dc.LineChart;
+  dataFromCrossfilter:Crossfilter<Data>;
+  timeDimension:Dimension<Data, number>;
   constructor() { }
 
   ngOnInit() {
@@ -52,7 +53,7 @@ export class TimeLineChartComponent implements OnInit {
                 .x(d3.scaleLinear().domain([_min,_max]))
                 .dimension(this.timeDimension)
                 .group(timeGroup)
-                .valueAccessor(d=>d.value/1000)
+                .valueAccessor(d=>d.value/1000);
     dc.renderAll();
   }
 
@@ -61,5 +62,12 @@ export class TimeLineChartComponent implements OnInit {
       this.lineChart.group(this.timeDimension.group().reduceSum(d=>d[this.currentProperty]));
       dc.renderAll();
     }
+  }
+  reset(e?:Event){
+    if(arguments.length){
+      e.preventDefault();
+    }
+    this.lineChart.filterAll();
+    dc.renderAll();
   }
 }

@@ -7,9 +7,11 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 })
 export class SelectPropertyComponent implements OnInit {
   visible:boolean = false;
+  curentProperty:string = "markdown";
   @Input()propertyForChangeView: string[];
   @Output()changeViewPropertyEvent = new EventEmitter();
-  changeOutput(value){
+  changeOutput(value:string){
+    this.curentProperty = value;
     this.changeViewPropertyEvent.emit(value);
   }
   constructor() { }
