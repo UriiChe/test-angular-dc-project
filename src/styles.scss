@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+.dc-chart path.line{
+    fill: none;
+}
+.extent{
+    fill: steelblue;
+    fill-opacity: .1;
+}
+.dc-chart .brush .resize path{
+    fill: #eee;
+    stroke: #666;
+}
+.dc-chart .axis path{
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.dc-chart .selected path, .dc-chart .selected circle {
+    stroke-width: 3;
+    stroke: rgb(139, 133, 133);
+    fill-opacity: 1;
+}
+.dc-chart g.deselected path {
+    fill-opacity: .7;
+}

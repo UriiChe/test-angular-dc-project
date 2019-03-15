@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import * as d3 from 'd3';
-import * as crossfilter from 'crossfilter2';
+import { Component, OnInit, Input } from '@angular/core';
 import * as dc from 'dc';
 
 @Component({
@@ -9,57 +7,54 @@ import * as dc from 'dc';
   styleUrls: ['./pie-chart.component.scss']
 })
 export class PieChartComponent implements OnInit {
-  sourceData;
-  appCrossfilter;
+  //recieve crossfilter data from parent component
+  @Input('crossfilterData') set getCrossFilter(value){
+    this.crossfilterData = value;
+  }
+  //recieve property from parent component for reduce chart
+  @Input('properyForChart') set changeInputProperty(value:string){
+    this.currentProperty = value;
+    this.updateChart();
+  }
+  //recieve reset event
+  @Input('reset') set resetChart(value){
+    if(this.pieChart){
+    this.pieChart.filterAll(null);
+    dc.renderAll();
+    }
+  }
+  // preinitialisation objects and variables
+  crossfilterData;
+  currentProperty; //property for reduce pieChart (margin, markdown, reveue);
+  pieChart;
+  categoryGroup;
+  categoryDimension;
   constructor() { }
-  
-  drowPie(){
-    // get data from csv file
-    this.sourceData = d3.csv('../../assets/data.csv').then((data)=>{
-      ////
-        data.forEach(function(d) {
-          console.log(d);
-        });
-      /////
-      this.appCrossfilter = crossfilter(data);
-      const categoryDimension = this.appCrossfilter.dimension(d=>d["item_category"]);
-      const categoryGroup = categoryDimension.group();
-      const cetegoryFiltered = categoryDimension.filter('EE');
-      // this.print_filter(cetegoryFiltered);
-      const pieChart = dc.pieChart('#pie');
-      const markdownDimension = this.appCrossfilter.dimension(data=>data.markdown);
-      const markdownGroup = markdownDimension.group().reduceCount();
-      pieChart.width(500)
-              .height(500)
-              .dimension(categoryDimension)
-              .group(categoryGroup)
-              .on('renderlet', (chart)=>{
-                chart.selectAll('rect').on('click', (d)=>{
-                  console.log('click!', d);
-                })
-              });
-      const lineChart = dc.lineChart('#lineChart');
-      lineChart.width(1200)
-                .height(300)
-                .x(d3.scaleLinear().domain([20,35]))
-                .y(d3.scaleLinear().domain([10,20]))
-                .dimension(markdownDimension)
-                .group(markdownGroup);
-      dc.renderAll();
-    });
-  }  
-  print_filter(filter){
-    var f=eval(filter);
-    if (typeof(f.length) != "undefined") {}else{}
-    if (typeof(f.top) != "undefined") {f=f.top(Infinity);}else{}
-    if (typeof(f.dimension) != "undefined") {f=f.dimension(function(d) { return "";}).top(Infinity);}else{}
-    console.log(filter+"("+f.length+") = "+JSON.stringify(f).replace("[","[\n\t").replace(/}\,/g,"},\n\t").replace("]","\n]"));
-  } 
-  ngOnInit() {
-    
-    this.drowPie();
+
+  ngOnInit() { 
+    this.pieChart = dc.pieChart("#pie"); // biding pieChart with template
+    this.createPieChart();
+  }
+ 
+  createPieChart(){
+    // create dimension by item_category
+    this.categoryDimension = this.crossfilterData.dimension(d=>d["item_category"]);
+    this.categoryGroup = this.categoryDimension.group().reduceSum(d=>d[this.currentProperty]);
+    this.pieChart
+        .width(700)
+        .height(500)
+        .dimension(this.categoryDimension)
+        .group(this.categoryGroup)
+        .legend(dc.legend())
+    dc.renderAll();
   }
 
+  updateChart(){
+    if(this.categoryDimension){
+      this.pieChart.group(this.categoryDimension.group().reduceSum(d=>d[this.currentProperty]));
+      dc.renderAll();
+    }
+  }
 }
 
 
