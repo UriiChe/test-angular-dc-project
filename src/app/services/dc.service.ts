@@ -42,13 +42,4 @@ export class DcService {
         year_ref: +d.year_ref,
       }}).then(data=>crossfilter(data))
   }
-  createDimension(params){
-    return this.appCrossfilter.dimension(d=>d.params);
-  }
-  createGroupWitnReduceSum(dimension, reduceValue){
-    return dimension.group().reduceSum(d=>d[reduceValue]);
-  }
-  createGroupWitnReduceCount(dimension, reduceValue){
-    return dimension.group().reduceCount(d=>d[reduceValue]);
-  }
 }
