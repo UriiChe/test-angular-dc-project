@@ -25,11 +25,19 @@ export class TimeLineChartComponent implements OnInit {
     this.reset();
     }
   }
- 
+  //recieve filter names for show in line chart title
+  @Input('filtersFromPieChart') set setfiltersName(filtersName:string[]){
+    if(filtersName.length){
+      this.filtersName = filtersName.join(', ');
+      console.log(this.filtersName);
+    } else this.filtersName = ' all categories';
+  }
+
   currentProperty:string = 'markdown'; //property for reduce pieChart (margin, markdown, reveue);
   lineChart:dc.LineChart;
   dataFromCrossfilter:Crossfilter<Data>;
   timeDimension:Dimension<Data, number>;
+  filtersName:string = ' all categories';
   constructor() { }
 
   ngOnInit() {

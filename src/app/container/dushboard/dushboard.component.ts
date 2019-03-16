@@ -13,6 +13,7 @@ export class DushboardComponent implements OnInit {
   dataFromCrossfilter:Crossfilter<Data>;
   propertyForChangeView:string[] = ["markdown", "margin", "revenues"]; // set properties to select-component
   reset:boolean = true; // value for reset toggler
+  filtersForLineChart:string[]=[];
   constructor( private dcService: DcService ) { } 
   
   ngOnInit() {
@@ -25,5 +26,8 @@ export class DushboardComponent implements OnInit {
     if(value !== this.currentProperty){
       this.currentProperty = value;
     }
+  }
+  getFilterEventPieChart(filters:string[]){
+    this.filtersForLineChart = filters.slice();
   }
 }      

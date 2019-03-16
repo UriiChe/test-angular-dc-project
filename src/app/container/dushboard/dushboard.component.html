@@ -10,14 +10,21 @@
     <div class="col-12 col-md-6 mb-3">
       <div class="card">
         <div class="card-body">
-          <app-pie-chart [crossfilterData]="dataFromCrossfilter" [reset] = "reset" [properyForChart]="currentProperty"></app-pie-chart>
+          <app-pie-chart  [crossfilterData]="dataFromCrossfilter" 
+                          [reset] = "reset" 
+                          [properyForChart]="currentProperty"
+                          (filterEvent)="getFilterEventPieChart($event)"
+                          ></app-pie-chart>
         </div>
       </div>
     </div>
     <div class="col-12 col-md-6 mb-3">
       <div class="card">
         <div class="card-body">
-            <app-time-line-chart [dataFromCrossfilter]="dataFromCrossfilter" [reset] = "reset" [properyForChart]="currentProperty"></app-time-line-chart>
+            <app-time-line-chart  [dataFromCrossfilter]="dataFromCrossfilter" 
+                                  [reset] = "reset" 
+                                  [properyForChart]="currentProperty"
+                                  [filtersFromPieChart]="filtersForLineChart"></app-time-line-chart>
         </div>
       </div>
     </div>

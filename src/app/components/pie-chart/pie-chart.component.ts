@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as dc from 'dc';
 import { Crossfilter, Dimension, Group, NaturallyOrderedValue } from 'crossfilter2';
 import { Data } from '@angular/router';
@@ -25,6 +25,7 @@ export class PieChartComponent implements OnInit {
     dc.renderAll();
     }
   }
+  @Output() filterEvent = new EventEmitter();
   // preinitialisation objects and variables
   crossfilterData:Crossfilter<Data>;
   currentProperty:string; //property for reduce pieChart (margin, markdown, reveue);
@@ -51,6 +52,12 @@ export class PieChartComponent implements OnInit {
         .label(function(d){
           return d.key;
         })
+        .on('filtered', (chart)=>{
+          let filters:any[] = chart.filters()
+          if(filters.length){
+            this.filterEvent.emit(filters);
+          } else this.filterEvent.emit([]);
+      })
         .legend(dc.legend().x(15).y(15).itemHeight(12))
     dc.renderAll();
   }
