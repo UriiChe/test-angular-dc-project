@@ -1,8 +1,9 @@
 <div id="lineChart">
     <div id="linear-chart">
-        <strong>{{ currentProperty | titlecase}} of {{ filtersName }}</strong>
-        <span class="reset" style="display: none;">Selected: <span class="filter" style="display: none;"></span></span>
-        <a class="reset" href="typescript:lineChart.filterAll();dc.redrawAll();" style="display: none;" (click)="reset($event)">reset</a>
+        <p class="my-0"><strong>{{ currentProperty | titlecase}} of {{ filtersName }}</strong></p>
+        <p class="reset-container my-0" #brashFilterProperty style="visibility: hidden"> <span class="reset">selected: <span class="filter"></span></span>
+            <button type="button" class="btn btn-link reset py-0" (click)="reset($event)"> reset</button>
+        </p>
         <div class="clearfix"></div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import * as dc from 'dc';
 import * as d3 from 'd3';
 import { Crossfilter, Dimension } from 'crossfilter2';
@@ -31,13 +31,13 @@ export class TimeLineChartComponent implements OnInit {
       this.filtersName = filtersName.join(', ');
     } else this.filtersName = ' all categories';
   }
-
+  @ViewChild('brashFilterProperty') private brashFilterProperty:ElementRef;
   currentProperty:string = 'markdown'; //property for reduce pieChart (margin, markdown, reveue);
   lineChart:dc.LineChart;
   dataFromCrossfilter:Crossfilter<Data>;
   timeDimension:Dimension<Data, number>;
   filtersName:string = ' all categories';
-  constructor() { }
+  constructor(private renderer:Renderer2) { }
 
   ngOnInit() {
     this.lineChart = dc.lineChart('#lineChart');
@@ -61,6 +61,11 @@ export class TimeLineChartComponent implements OnInit {
                 .dimension(this.timeDimension)
                 .group(timeGroup)
                 .useViewBoxResizing(true)
+                .on('filtered', (chart)=>{
+                  if(chart.filters().length){
+                    this.renderer.setStyle(this.brashFilterProperty.nativeElement, "visibility", "visible");
+                  } else  this.renderer.setStyle(this.brashFilterProperty.nativeElement, "visibility", "hidden");
+              })
                 .valueAccessor(d=>d.value/1000);
     dc.renderAll();
   }

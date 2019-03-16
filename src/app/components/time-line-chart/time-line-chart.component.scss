@@ -1,0 +1,12 @@
+.reset-container{
+    height: 1rem;
+    font-size: .8rem;
+    line-height: 1;
+    .reset{
+        display: inline-block;
+        font-size: inherit;
+    }
+    .filter{
+        display: inline-block;
+    }
+}
