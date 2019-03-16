@@ -29,7 +29,6 @@ export class TimeLineChartComponent implements OnInit {
   @Input('filtersFromPieChart') set setfiltersName(filtersName:string[]){
     if(filtersName.length){
       this.filtersName = filtersName.join(', ');
-      console.log(this.filtersName);
     } else this.filtersName = ' all categories';
   }
 
@@ -62,9 +61,6 @@ export class TimeLineChartComponent implements OnInit {
                 .dimension(this.timeDimension)
                 .group(timeGroup)
                 .useViewBoxResizing(true)
-                .on('renderlet', (d)=>{
-                    
-                })
                 .valueAccessor(d=>d.value/1000);
     dc.renderAll();
   }
