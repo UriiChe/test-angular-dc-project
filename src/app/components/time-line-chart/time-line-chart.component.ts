@@ -32,6 +32,7 @@ export class TimeLineChartComponent implements OnInit {
     } else this.filtersName = ' all categories';
   }
   @ViewChild('brashFilterProperty') private brashFilterProperty:ElementRef;
+  
   currentProperty:string = 'markdown'; //property for reduce pieChart (margin, markdown, reveue);
   lineChart:dc.LineChart;
   dataFromCrossfilter:Crossfilter<Data>;

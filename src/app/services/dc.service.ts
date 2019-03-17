@@ -8,9 +8,7 @@ import { Data } from '../models/data';
 })
 
 export class DcService {
-  constructor() { 
-    
-  }
+  constructor() { }
   // create crossfilter function
   createCrossfilter():Promise<crossfilter.Crossfilter<Data>>{
     // get data from csv file
@@ -26,5 +24,3 @@ export class DcService {
       }}).then(data=>crossfilter(data))
   }
 }
-
-// :crossfilter.Crossfilter<Data>
