@@ -1,6 +1,6 @@
 <div id="lineChart">
     <div id="linear-chart">
-        <p class="my-0"><strong><string class="property">{{ currentProperty | titlecase}}</string> of <string class="filter-name">{{ filtersName }}</string></strong></p>
+        <p class="my-0"><strong><span class="property">{{ currentProperty | titlecase}}</span> of <span class="filter-name">{{ filtersName }}</span></strong></p>
         <p class="reset-container my-0" #brashFilterProperty style="visibility: hidden"> <span class="reset">selected: <span class="filter"></span></span>
             <button type="button" class="btn btn-link reset py-0" (click)="reset($event)"> reset</button>
         </p>

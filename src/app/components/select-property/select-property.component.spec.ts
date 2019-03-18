@@ -21,7 +21,7 @@ describe('SelectPropertyComponent', () => {
         component = fixture.componentInstance;
         de = fixture.debugElement.query(By.css('.dropdown-toggle'));
         dropdownButton = de.nativeElement;
-        mocCurrentProperty = "markdown";
+        mocCurrentProperty = "Markdown";
         fixture.detectChanges();
     });
 
@@ -35,8 +35,7 @@ describe('SelectPropertyComponent', () => {
         expect(dropdownButton.textContent).toContain(component.curentProperty);
     });
     it('should send event when user select a property', ()=>{
-        let selectButton = fixture.nativeElement.query('.dropdown-item');
-        selectButton.click();
+        dropdownButton.click();
         component.changeOutput(mocCurrentProperty);
         expect(component.curentProperty).toEqual(mocCurrentProperty);
     })

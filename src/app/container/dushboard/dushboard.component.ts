@@ -21,7 +21,7 @@ export class DushboardComponent implements OnInit {
       this.dataFromCrossfilter = data;
     });
   }
-
+  
   changeViewProperty(value:string){
     if(value !== this.currentProperty){
       this.currentProperty = value;
@@ -30,4 +30,4 @@ export class DushboardComponent implements OnInit {
   getFilterEventPieChart(filters:string[]){
     this.filtersForLineChart = filters.slice();
   }
-}      
+}
