@@ -9,7 +9,7 @@ export class SelectPropertyComponent implements OnInit {
   visible:boolean = false;
   curentProperty:string = "markdown";
   @Input()propertyForChangeView: string[];
-  @Output()changeViewPropertyEvent = new EventEmitter();
+  @Output()changeViewPropertyEvent = new EventEmitter<string>();
   changeOutput(value:string){
     this.curentProperty = value;
     this.changeViewPropertyEvent.emit(value);

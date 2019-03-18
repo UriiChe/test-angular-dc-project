@@ -3,7 +3,7 @@
   <div>
     <div class="col d-flex my-3">
       <app-select-property class="mr-3" [propertyForChangeView] = "propertyForChangeView" (changeViewPropertyEvent)="changeViewProperty($event)"></app-select-property>
-      <button type="button"class="btn btn-secondary" (click)="reset = !reset">Reset</button>      
+      <button type="button"class="btn btn-secondary reset" (click)="reset = !reset">Reset</button>      
     </div>
   </div>
   <div class="row align-items-stretch mx-0" *ngIf="dataFromCrossfilter">
