@@ -8,6 +8,7 @@ import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { TimeLineChartComponent } from './components/time-line-chart/time-line-chart.component';
 import { NavComponent } from './components/nav/nav.component';
 import { SelectPropertyComponent } from './components/select-property/select-property.component';
+import { TableComponent } from './components/table/table.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { SelectPropertyComponent } from './components/select-property/select-pro
     PieChartComponent,
     TimeLineChartComponent,
     NavComponent,
-    SelectPropertyComponent
+    SelectPropertyComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,

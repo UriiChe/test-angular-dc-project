@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as dc from 'dc';
 import { Crossfilter, Dimension, Group, NaturallyOrderedValue } from 'crossfilter2';
 import { Data } from '@angular/router';
@@ -8,7 +8,7 @@ import { Data } from '@angular/router';
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.scss']
 })
-export class PieChartComponent implements OnInit {
+export class PieChartComponent implements OnInit, OnDestroy {
   //recieve crossfilter data from parent component
   @Input('crossfilterData') set getCrossFilter(value:Crossfilter<Data>){
     this.crossfilterData = value;
@@ -67,6 +67,9 @@ export class PieChartComponent implements OnInit {
       this.pieChart.group(this.categoryDimension.group().reduceSum(d=>d[this.currentProperty]));
       dc.renderAll();
     }
+  }
+  ngOnDestroy(){
+    this.categoryDimension.dispose();
   }
 }
 

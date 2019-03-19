@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import * as dc from 'dc';
 import * as d3 from 'd3';
 import { Crossfilter, Dimension } from 'crossfilter2';
@@ -9,7 +9,7 @@ import { Data } from '@angular/router';
   templateUrl: './time-line-chart.component.html',
   styleUrls: ['./time-line-chart.component.scss']
 })
-export class TimeLineChartComponent implements OnInit {
+export class TimeLineChartComponent implements OnInit, OnDestroy {
   //recieve crossfilter data from parent component
   @Input('dataFromCrossfilter') set getCrossFilterData(value:Crossfilter<Data>){
     this.dataFromCrossfilter = value;
@@ -83,5 +83,8 @@ export class TimeLineChartComponent implements OnInit {
     }
     this.lineChart.filterAll();
     dc.renderAll();
+  }
+  ngOnDestroy(){
+    this.timeDimension.dispose();
   }
 }
